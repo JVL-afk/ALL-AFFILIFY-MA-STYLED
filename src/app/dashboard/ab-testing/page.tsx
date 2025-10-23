@@ -81,27 +81,27 @@ export default function ABTestingPage() {
   const [success, setSuccess] = useState('')
 
   // Temporarily remove Enterprise plan restriction for testing
-  const [hasEnterpriseAccess, setHasEnterpriseAccess] = useState(false)
+  const [hasEnterpriseAccess, setHasEnterpriseAccess] = useState(true)
 
   useEffect(() => {
-checkEnterpriseAccess()
+// checkEnterpriseAccess() // Temporarily disabled for feature test
     if (hasEnterpriseAccess) {
       loadTests()
       loadStats()
     }
   }, [])
 
-  const checkEnterpriseAccess = async () => {
-    try {
-      const response = await fetch('/api/auth/me')
-      if (response.ok) {
-        const data = await response.json()
-        setHasEnterpriseAccess(data.user.plan === 'enterprise')
-      }
-    } catch (error) {
-      console.error('Error checking access:', error)
-    }
-  }
+  // const checkEnterpriseAccess = async () => {
+  //   try {
+  //     const response = await fetch('/api/auth/me')
+  //     if (response.ok) {
+  //       const data = await response.json()
+  //       setHasEnterpriseAccess(data.user.plan === 'enterprise')
+  //     }
+  //   } catch (error) {
+  //     console.error('Error checking access:', error)
+  //   }
+  // }
 
   const loadTests = async () => {
     try {
