@@ -142,17 +142,17 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/login?redirect=' + encodeURIComponent(pathname), request.url));
   }
   
-  // // Check if user can access the feature (Temporarily disabled for testing)
-  // const canAccess = canAccessFeature(userInfo.plan, pathname);
-  // if (!canAccess) {
-  //   // Determine which plan is needed for this feature
-  //   const neededPlan = getNeededPlanForFeature(pathname);
+  // Check if user can access the feature
+  const canAccess = canAccessFeature(userInfo.plan, pathname);
+  if (!canAccess) {
+    // Determine which plan is needed for this feature
+    const neededPlan = getNeededPlanForFeature(pathname);
     
-  //   // Redirect to pricing page with upgrade info
-  //   return NextResponse.redirect(
-  //     new URL(`/pricing?upgrade=${neededPlan}&from=${userInfo.plan}&feature=${encodeURIComponent(pathname)}`, request.url)
-  //   );
-  // }
+    // Redirect to pricing page with upgrade info
+    return NextResponse.redirect(
+      new URL(`/pricing?upgrade=${neededPlan}&from=${userInfo.plan}&feature=${encodeURIComponent(pathname)}`, request.url)
+    );
+  }
   
   // Allow access
   return NextResponse.next();
