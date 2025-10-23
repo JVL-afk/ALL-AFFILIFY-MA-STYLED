@@ -60,6 +60,9 @@ export async function POST(request: NextRequest) {
       return redirectResponse
     }
 
+    // Generate a fresh token for the response
+    const token = generateToken(user.id)
+
     // If no upgrade, create a standard success response
     const successResponse = NextResponse.json({
       success: true,
