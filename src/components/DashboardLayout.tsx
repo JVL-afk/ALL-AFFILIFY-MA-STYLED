@@ -238,7 +238,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
   // Check if user can access a feature based on their plan
   const canAccessFeature = (userPlan: PlanType, requiredPlan: PlanType): boolean => {
-    return planHierarchy[userPlan] >= planHierarchy[requiredPlan];
+    // return planHierarchy[userPlan] >= planHierarchy[requiredPlan]; // Original logic
+    return true; // TEMPORARY BYPASS FOR TESTING
   }
 
   // Get the upgrade URL based on current plan
