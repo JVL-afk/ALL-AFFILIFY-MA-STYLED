@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { requirePremium } from '@/lib/auth-middleware'
+import { requirePro } from '@/lib/auth-middleware'
 import { AuthenticatedUser } from '@/lib/types'
 
 // GET: Fetch Top Pages Analytics data (best-in-class)
-export const GET = requirePremium(async (request: NextRequest, user: AuthenticatedUser) => {
+export const GET = requirePro(async (request: NextRequest, user: AuthenticatedUser) => {
   try {
     // Best-in-Class: Mock top pages data representing institutional-grade analytics
     const mockTopPagesData = [

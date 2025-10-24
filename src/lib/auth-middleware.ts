@@ -93,8 +93,8 @@ export const requireAuth = (handler: AuthenticatedHandler) => async (request: Ne
   return handler(request, authResult.user!);
 };
 
-// Best-in-Class: Higher-order function for premium plan requirement
-export const requirePremium = (handler: AuthenticatedHandler) => async (request: NextRequest) => {
+// Best-in-Class: Higher-order function for pro plan requirement
+export const requirePro = (handler: AuthenticatedHandler) => async (request: NextRequest) => {
   const authResult = await authenticateRequest(request);
 
   if (!authResult.success) {
@@ -102,10 +102,10 @@ export const requirePremium = (handler: AuthenticatedHandler) => async (request:
   }
 
   const user = authResult.user!;
-  const isPremium = user.plan === 'pro' || user.plan === 'enterprise';
+  const isPro = user.plan === 'pro' || user.plan === 'enterprise';
 
-  if (!isPremium) {
-    return NextResponse.json({ error: 'Premium plan required' }, { status: 403 });
+  if (!isPro) {
+    return NextResponse.json({ error: 'Pro plan required' }, { status: 403 });
   }
 
   return handler(request, user);
@@ -128,4 +128,3 @@ export const requireEnterprise = (handler: AuthenticatedHandler) => async (reque
 
   return handler(request, user);
 };
-

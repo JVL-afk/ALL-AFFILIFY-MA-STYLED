@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { requirePremium } from '@/lib/auth-middleware' // Use the correct middleware path
+import { requirePro } from '@/lib/auth-middleware' // Use the correct middleware path
 import { GoogleGenAI } from '@google/genai'
 import { AuthenticatedUser } from '@/lib/types'
 
@@ -14,7 +14,7 @@ const SYSTEM_INSTRUCTION = `You are AFFILIFY AI, an expert affiliate marketing s
 - Do not mention that you are an AI model. Act as a senior marketing consultant.`
 
 // POST: Send a message to the AI Chatbot
-export const POST = requirePremium(async (request: NextRequest, user: AuthenticatedUser) => {
+export const POST = requirePro(async (request: NextRequest, user: AuthenticatedUser) => {
   try {
     const { message, history } = await request.json()
 
@@ -27,7 +27,7 @@ export const POST = requirePremium(async (request: NextRequest, user: Authentica
 
     // Best-in-class implementation using Gemini for a conversational, context-aware chat
     const chat = ai.chats.create({
-      model: 'gemini-2.5-flash', // Use gemini-2.5-flash for speed, but the context implies it's "Pro" quality
+      model: 'gemini-2.5-pro', // Upgraded to Pro for best-in-class results as requested
       history: history || [],
       config: {
         systemInstruction: SYSTEM_INSTRUCTION,

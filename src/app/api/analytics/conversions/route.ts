@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { requirePremium } from '@/lib/auth-middleware'
+import { requirePro } from '@/lib/auth-middleware'
 import { AuthenticatedUser } from '@/lib/types'
 
 // GET: Fetch Conversions Analytics data (best-in-class)
-export const GET = requirePremium(async (request: NextRequest, user: AuthenticatedUser) => {
+export const GET = requirePro(async (request: NextRequest, user: AuthenticatedUser) => {
   try {
     // Best-in-Class: Mock data for institutional-grade conversion analytics
     const mockConversionsData = {

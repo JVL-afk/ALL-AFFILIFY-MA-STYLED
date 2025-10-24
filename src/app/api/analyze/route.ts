@@ -2,12 +2,12 @@ import { NextRequest, NextResponse } from 'next/server'
 import { verifyToken, getUserById, incrementUserAnalyses } from '../../../lib/auth'
 import { saveAnalysis } from '../../../lib/database'
 import { validateUrl } from '../../../lib/utils'
-import { GoogleGenerativeAI } from '@google/generative-ai'
+import { GoogleGenAI } from '@google/genai'
 import axios from 'axios'
 import * as cheerio from 'cheerio'
 
 // Initialize Gemini AI
-const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY || '')
+const genAI = new GoogleGenAI({})
 
 // Comprehensive website analysis using multiple tools
 async function performComprehensiveAnalysis(url: string) {
@@ -272,7 +272,7 @@ async function analyzeTechnicalSEO(url: string) {
 // Gemini AI analysis with the comprehensive prompt
 async function performGeminiAnalysis(url: string, pageSpeedData: any, contentData: any, technicalData: any) {
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" })
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-pro" })
 
     const comprehensivePrompt = `🚨 CRITICAL MISSION: ULTIMATE AFFILIATE PROGRAM ANALYSIS 🚨
 

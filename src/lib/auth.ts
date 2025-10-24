@@ -225,7 +225,7 @@ export async function incrementUserAnalyses(userId: string): Promise<boolean> {
 
 type AuthenticatedHandler = (request: NextRequest, user: AuthenticatedUser) => Promise<NextResponse>
 
-const checkPlan = (requiredPlan: 'premium' | 'enterprise') => (handler: AuthenticatedHandler) => async (request: NextRequest) => {
+const checkPlan = (requiredPlan: 'pro' | 'enterprise') => (handler: AuthenticatedHandler) => async (request: NextRequest) => {
   const authResult = await verifyAuth(request)
   
   if (!authResult.success) {
@@ -234,21 +234,18 @@ const checkPlan = (requiredPlan: 'premium' | 'enterprise') => (handler: Authenti
 
   const user = authResult.user as AuthenticatedUser
   
-  const isPremium = user.plan === 'pro' || user.plan === 'enterprise'
-  const isEnterprise = user.plan === 'enterprise'
-
-  if (requiredPlan === 'premium' && !isPremium) {
-    return NextResponse.json({ error: 'Premium plan required' }, { status: 403 })
+  if (requiredPlan === 'pro' && user.plan === 'basic') {
+    return NextResponse.json({ error: 'Pro plan required' }, { status: 403 })
   }
 
-  if (requiredPlan === 'enterprise' && !isEnterprise) {
+  if (requiredPlan === 'enterprise' && user.plan !== 'enterprise') {
     return NextResponse.json({ error: 'Enterprise plan required' }, { status: 403 })
   }
 
   return handler(request, user)
 }
 
-export const requirePremium = checkPlan('premium')
+export const requirePro = checkPlan('pro')
 export const requireEnterprise = checkPlan('enterprise')
 
 export async function verifyAuth(request: NextRequest) {

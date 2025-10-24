@@ -1,44 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { verifyToken, getUserById } from '@/lib/auth'
+import { requireEnterprise } from '@/lib/auth-middleware'
+import { AuthenticatedUser } from '@/lib/types'
 
-export async function GET(request: NextRequest) {
+export const GET = requireEnterprise(async (request: NextRequest, user: AuthenticatedUser) => {
   try {
-    // Get token from cookies
-    const token = request.cookies.get('auth-token')?.value
-
-    if (!token) {
-      return NextResponse.json(
-        { error: 'Authentication required' },
-        { status: 401 }
-      )
-    }
-
-    // Verify token
-    const decoded = verifyToken(token)
-    if (!decoded) {
-      return NextResponse.json(
-        { error: 'Invalid token' },
-        { status: 401 }
-      )
-    }
-
-    // Get user
-    const user = await getUserById(decoded.userId)
-    if (!user) {
-      return NextResponse.json(
-        { error: 'User not found' },
-        { status: 404 }
-      )
-    }
-
-    // Check if user has Enterprise plan
-    if (user.plan !== 'enterprise') {
-      return NextResponse.json(
-        { error: 'Enterprise plan required' },
-        { status: 403 }
-      )
-    }
-
     // Mock reviews data for now
     const reviews = [
       {
@@ -77,46 +42,10 @@ export async function GET(request: NextRequest) {
       { status: 500 }
     )
   }
-}
+})
 
-export async function POST(request: NextRequest) {
+export const POST = requireEnterprise(async (request: NextRequest, user: AuthenticatedUser) => {
   try {
-    // Get token from cookies
-    const token = request.cookies.get('auth-token')?.value
-
-    if (!token) {
-      return NextResponse.json(
-        { error: 'Authentication required' },
-        { status: 401 }
-      )
-    }
-
-    // Verify token
-    const decoded = verifyToken(token)
-    if (!decoded) {
-      return NextResponse.json(
-        { error: 'Invalid token' },
-        { status: 401 }
-      )
-    }
-
-    // Get user
-    const user = await getUserById(decoded.userId)
-    if (!user) {
-      return NextResponse.json(
-        { error: 'User not found' },
-        { status: 404 }
-      )
-    }
-
-    // Check if user has Enterprise plan
-    if (user.plan !== 'enterprise') {
-      return NextResponse.json(
-        { error: 'Enterprise plan required' },
-        { status: 403 }
-      )
-    }
-
     const body = await request.json()
     const { customerName, customerEmail, rating, title, content, productId, websiteId } = body
 
@@ -165,5 +94,5 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     )
   }
-}
+})
 

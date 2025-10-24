@@ -99,7 +99,7 @@ export async function generateWebsiteContent(request: WebsiteGenerationRequest):
       throw new Error('Google AI API key not configured')
     }
 
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" })
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-pro" })
     
     const prompt = `
     You are an expert affiliate marketing copywriter. Create a comprehensive, high-converting affiliate marketing website for the following product:
@@ -209,7 +209,7 @@ export async function analyzeWebsite(url: string, analysisType: string = 'compre
       throw new Error('Google AI API key not configured')
     }
 
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" })
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-pro" })
     
     const prompt = `
     You are an expert website analyst and SEO consultant. Analyze the website at ${url} and provide a comprehensive performance analysis.

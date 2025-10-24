@@ -94,9 +94,7 @@ export function canAccessFeature(user: UserPlan, feature: keyof typeof PLAN_LIMI
   }
 
   if (!limits[feature]) {
-    const requiredPlan = feature === 'aiChatbot' || feature === 'teamCollaboration' || feature === 'customIntegrations' 
-      ? 'Enterprise' 
-      : 'Pro';
+    const requiredPlan = PLAN_LIMITS.enterprise[feature as keyof typeof PLAN_LIMITS.basic] ? 'Enterprise' : 'Pro';
       
     return {
       allowed: false,

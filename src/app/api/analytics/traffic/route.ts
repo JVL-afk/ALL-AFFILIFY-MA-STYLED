@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { requirePremium } from '@/lib/auth-middleware'
+import { requirePro } from '@/lib/auth-middleware'
 import { AuthenticatedUser } from '@/lib/types'
 
 // GET: Fetch Traffic Analytics data (best-in-class with Google Analytics Data API integration)
-export const GET = requirePremium(async (request: NextRequest, user: AuthenticatedUser) => {
+export const GET = requirePro(async (request: NextRequest, user: AuthenticatedUser) => {
   try {
     // Best-in-Class: In a production implementation, this would call the Google Analytics Data API
     // using the user's connected property ID. For now, we provide mock data that represents
